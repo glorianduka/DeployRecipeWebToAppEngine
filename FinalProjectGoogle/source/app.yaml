@@ -1,0 +1,22 @@
+runtime: php74
+
+runtime_config:
+  document_root:
+
+handlers:
+  - url: /(.+\.(gif|png|jpg|css|js|map|PNG))$
+    static_files: \1
+    upload: .+\.(gif|png|jpg|css|js|map|PNG)$
+
+  - url: /.*
+    script: auto
+
+  entrypoint:
+    serve handler.php
+
+
+  env_variables:
+    CLOUDSQL_USER: nduka_recipe_user
+    CLOUDSQL_DB: recipe
+    CLOUDSQL_PASSWORD: uscItp2021
+    CLOUDSQL_DSN: /cloudsql/centered-flow-332318:us-central1:recipe-db-new
