@@ -13,7 +13,10 @@ session_start();
 		$password = getenv('CLOUDSQL_PASSWORD');
 		$db = getenv('CLOUDSQL_DB');
 		
-		$mysqli = new mysqli($host, $user, $password, $db);
+		// $mysqli = new mysqli($host, $user, $password, $db);
+        $mysqli = mysqli_connect(null, $user, $password, $db, null, $host);
+        
+        
 		if ( $mysqli->connect_errno ) {
 			echo $mysqli->connect_error;
 			exit();

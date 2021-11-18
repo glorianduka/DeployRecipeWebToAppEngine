@@ -23,7 +23,9 @@ if ( !isset($_POST['fname']) || empty($_POST['fname'])
 }
 else {
 	// Connect to the database and insert a new user to the users table
-	$mysqli = new mysqli($host, $user, $password, $db);
+	// $mysqli = new mysqli($host, $user, $password, $db);
+    $mysqli = mysqli_connect(null, $user, $password, $db, null, $host);
+    
 	if($mysqli->connect_errno) {
 		echo $mysqli->connect_error;
 		exit();

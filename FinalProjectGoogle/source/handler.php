@@ -7,6 +7,9 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
     case '/index.php':
         require 'index.php';
         break;
+    case '/index':
+        require 'index.php';
+        break;
     case '/addConfirm.php':
         require 'addConfirm.php';
         break;
@@ -37,9 +40,9 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
     case '/editConfirm':
         require 'editConfirm.php';
         break;
-    case '/favorite.php':
-        require __DIR__.'favorite.php';
-        break;
+    // case '/favorite.php':
+    //     require __DIR__.'favorite.php';
+    //     break;
     case '/favorite.php':
         require 'favorite.php';
         break;
@@ -58,18 +61,18 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
     case '/logout':
         require 'logout.php';
         break;
-    case '/profile.php':
-        require __DIR__.'profile.php';
-        break;
+    // case '/profile.php':
+    //     require __DIR__.'profile.php';
+    //     break;
     case '/profile.php':
         require 'profile.php';
         break;
     case '/profile':
         require 'profile.php';
         break;
-    case '/profileAjaxBackend.php':
-        require __DIR__.'profileAjaxBackend.php';
-        break;
+    // case '/profileAjaxBackend.php':
+    //     require __DIR__.'profileAjaxBackend.php';
+    //     break;
     case '/profileAjaxBackend.php':
         require 'profileAjaxBackend.php';
         break;
@@ -88,9 +91,9 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
     case '/registerConfirm':
         require 'registerConfirm.php';
         break;
-    case '/results.php':
-        require __DIR__.'results.php';
-        break;
+    // case '/results.php':
+    //     require __DIR__.'results.php';
+    //     break;
     case '/results.php':
         require 'results.php';
         break;
@@ -106,6 +109,7 @@ switch (@parse_url($_SERVER['REQUEST_URI'])['path']) {
     default:
         http_response_code(404);
         echo @parse_url($_SERVER['REQUEST_URI'])['path'];
+        echo "error handler.php";        
         exit('Not Found');
 }
 

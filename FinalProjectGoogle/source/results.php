@@ -14,7 +14,9 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 		$db = getenv('CLOUDSQL_DB');
 
 	// DB Connection
-		$mysqli = new mysqli($host, $user, $password, $db);
+		// $mysqli = new mysqli($host, $user, $password, $db);
+        $mysqli = mysqli_connect(null, $user, $password, $db, null, $host);
+
 		if ( $mysqli->connect_errno ) {
 			echo $mysqli->connect_error;
 			exit();

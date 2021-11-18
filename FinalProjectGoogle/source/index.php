@@ -8,12 +8,19 @@ session_start();
 // $password = "uscItp2021";
 // $db = "nduka_recipe_db";
 
-$host = getenv('CLOUDSQL_DSN');
-$user = getenv('CLOUDSQL_USER');
-$password = getenv('CLOUDSQL_PASSWORD');
-$db = getenv('CLOUDSQL_DB');
-$mysqli = new mysqli($host, $user, $password, $db);
-if ( $mysqli->connect_errno ) {
+$host = "/cloudsql/centered-flow-332318:us-central1:recipe-db-new";
+$user = "nduka_recipe_user";
+$password = "uscItp2021";
+$db = "recipe";
+
+// $host = getenv('CLOUDSQL_DSN');
+// $user = getenv('CLOUDSQL_USER');
+// $password = getenv('CLOUDSQL_PASSWORD');
+// $db = getenv('CLOUDSQL_DB');
+$mysqli = mysqli_connect(null, $user, $password, $db, null, $host);
+// $mysqli = new mysqli($host, $user, $password, $db);
+if ( $mysqli->connect_errno || !$mysqli ) {
+    echo "there is an error!!!!!!";
 	echo $mysqli->connect_error;
 	exit();
 }
