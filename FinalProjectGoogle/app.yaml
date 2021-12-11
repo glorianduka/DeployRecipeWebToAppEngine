@@ -34,6 +34,18 @@ handlers:
   upload: fonts/(.*\.ttf)
   mime_type: application/x-font-ttf
 
+
+# - url: /?authuser=0
+#   static_files: dist/index.php
+#   upload: dist/index.php
+
+# - url: /(.*)
+#   static_files: dist/index.php
+#   upload: dist/index.php
+
+# - url: .*
+#   script: index.php
+
 - url: /.*
   script: auto
 

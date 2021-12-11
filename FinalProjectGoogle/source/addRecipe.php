@@ -1,7 +1,49 @@
 <?php
 session_start();
+require_once "../vendor/autoload.php";
+// require_once "finalGoogleAppDeploy/DeployRecipeWebToAppEngine/FinalProjectGoogle/vendor/autoload.php";
+use Google\Cloud\Storage\StorageClient;
 if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 
+    //Setting Up Google CLoud Storage and authentication
+    // export GOOGLE_APPLICATION_CREDENTIALS="/home/glorianduka17/finalGoogleAppDeploy/DeployRecipeWebToAppEngine/FinalProjectGoogle/credentials/centered-flow-332318-254e27364d4c.json"
+                    
+    // # Includes the autoloader for libraries installed with composer
+    // require __DIR__ . '/vendor/autoload.php';
+    // # Imports the Google Cloud client library
+    // use Google\Cloud\Storage\StorageClient;
+
+    // # Your Google Cloud Platform project ID
+    // $projectId = 'centered-flow-332318';
+
+    // # Instantiates a client
+    // $storage = new StorageClient([
+    //     'projectId' => $projectId
+    // ]);
+
+    // # The name for the new bucket
+    // $bucketName = 'testing-bucket-abc';
+
+    // # Creates the new bucket
+    // $bucket = $storage->createBucket($bucketName);
+
+    // echo 'Bucket ' . $bucket->name() . ' created.';
+
+
+   
+    // require_once "vendor/autoload.php";
+    
+    // use Google\Cloud\Storage\StorageClient;
+    
+    try {
+        $storage = new StorageClient([
+            'keyFilePath' => '../credentials/centered-flow-332318-254e27364d4c.json',
+        ]);
+    } catch(Exception $e) {
+        echo "error!!!!";
+        echo $e->getMessage();
+    }
+    echo "works!";
 
 
 
