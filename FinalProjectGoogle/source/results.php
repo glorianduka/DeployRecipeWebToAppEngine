@@ -301,7 +301,7 @@ else{
 			          	while ($row = mysqli_fetch_assoc($results_registered)) {  ?>
 			          		<div class = "recipeBox col-6 col-md-4 col-lg-3">
 								<a class="recipeTitle" href="details.php?id=<?php echo $row['id']; ?>">
-									<div class="imageDivHolder rounded" style = "background-image: url('../images/<?=$row['imageName']?>');"> 
+									<div class="imageDivHolder rounded" style = "background-image: url('https://storage.googleapis.com/recipe-webapp-images/<?=$row['imageName']?>');"> 
 											<!-- if this recipe is not in favorites, display recipe -->
 								<!-- </a> -->
 											

@@ -332,7 +332,9 @@ $mysqli->close();
 						<a href="details.php?id=<?php echo $row['id']; ?>">
 							<div id="randFoodImage" class="float-right mr-3">
 								<!-- <img class= "img-fluid" src='../images/globalCuisine.jpeg'> -->
-								<div class="imageDivHolder rounded" style = "background-image: url('../images/<?=$row['imageName']?>');"></div>
+                                <div class="imageDivHolder rounded" style = "background-image: url('https://storage.googleapis.com/recipe-webapp-images/<?=$row['imageName']?>');"></div>
+
+                                <!-- innerDiv.style.backgroundImage = "url('https://storage.googleapis.com/recipe-webapp-images/" + jsResults[i].imageName + "')"; -->
 							</div>
 							<div class="randFoodWords float-right">
 								<p><?php echo $row['title'];?></p>
@@ -356,7 +358,7 @@ $mysqli->close();
 				        while ($row = mysqli_fetch_assoc($results_registered)) {  ?>
 				        	<div class = "recipeBox col-6 col-md-4 col-lg-3">
 								<a class="recipeTitle" href="details.php?id=<?php echo $row['id']; ?>">
-								<div class="imageDivHolder rounded" style = "background-image: url('../images/<?=$row['imageName']?>');"> </div>								
+								<div class="imageDivHolder rounded" style = "background-image: url('https://storage.googleapis.com/recipe-webapp-images/<?=$row['imageName']?>');"> </div>								
 								<div class="col-12 text-center font-weight-bold"><?php echo $row['title']; ?></div>
 								</a>
 							</div>

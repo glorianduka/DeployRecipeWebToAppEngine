@@ -9,6 +9,9 @@ $user = getenv('CLOUDSQL_USER');
 $password = getenv('CLOUDSQL_PASSWORD');
 $db = getenv('CLOUDSQL_DB');
 session_start();
+require_once "../vendor/autoload.php";
+// require_once "finalGoogleAppDeploy/DeployRecipeWebToAppEngine/FinalProjectGoogle/vendor/autoload.php";
+use Google\Cloud\Storage\StorageClient;
 
 $isUpdated = false;
 // var_dump($_POST);
@@ -43,9 +46,27 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 					// print_r($_FILES['image']);
 					// echo "</pre>";
 
-					$img_name = $_FILES['image']['name'];
+                    try {
+                        $storage = new StorageClient([
+                            'keyFilePath' => '../credentials/centered-flow-332318-254e27364d4c.json',
+                        ]);
+                        $bucketName = 'recipe-webapp-images';
+                        $bucket = $storage->bucket($bucketName);
+    
+                        $source = $_FILES['image']['tmp_name'];
+                        $fileName = $_FILES['image']['name'];
+                        $file = fopen($source, 'r');
+                        $object = $bucket->upload($file, [
+                            'name' => $fileName
+                        ]);
+                    } catch(Exception $e) {
+                        echo "error!!!!";
+                        echo $e->getMessage();
+                    }
+
+					$fileName = $_FILES['image']['name'];
 					$img_size = $_FILES['image']['size'];
-					$tmp_name = $_FILES['image']['tmp_name'];
+					// $tmp_name = $_FILES['image']['tmp_name'];
 					$errorNum = $_FILES['image']['error'];
 
 					if ($errorNum === 0) {
@@ -54,15 +75,15 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 							// echo "Sorry, your file is too large.";
 						    // header("Location: addRecipe.php?error=$em");
 						}else {
-							$img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-							$img_ex_lc = strtolower($img_ex);
+							// $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+							// $img_ex_lc = strtolower($img_ex);
 
-							$allowed_exs = array("jpg", "jpeg", "png"); 
+							// $allowed_exs = array("jpg", "jpeg", "png"); 
 
-							if (in_array($img_ex_lc, $allowed_exs)) {
-								$new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-								$img_upload_path = '../images/'.$new_img_name;
-								move_uploaded_file($tmp_name, $img_upload_path);
+							// if (in_array($img_ex_lc, $allowed_exs)) {
+							// 	$new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+							// 	$img_upload_path = '../images/'.$new_img_name;
+							// 	move_uploaded_file($tmp_name, $img_upload_path);
 
 								$image = "";
 								$userID = $_SESSION["id"];
@@ -77,7 +98,7 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 								// $image = file_get_contents($_FILES['image']['tmp_name']);
 
 								$statement = $mysqli->prepare("UPDATE recipes SET title = ?, cuisine = ?, servings = ?, ingredients = ?, directions = ?, imageName = ?, prepTime = ?, cookTime = ?, difficulty = ? WHERE id = ?");
-								$statement->bind_param("ssisssiisi", $title, $cuisine, $servings, $ingredients, $directions, $new_img_name, $preptime, $cooktime, $difficulty, $_POST["id"]);
+								$statement->bind_param("ssisssiisi", $title, $cuisine, $servings, $ingredients, $directions, $fileName, $preptime, $cooktime, $difficulty, $_POST["id"]);
 								$executed = $statement->execute();
 								if(!$executed) {
 									echo $mysqli->error;
@@ -87,10 +108,10 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 									$isUpdated = true;
 								}
 
-							}else {
-								$error = "You can't upload files of this type. Only png, jpg, jpeg accepted.";
-								// echo "You can't upload files of this type";
-							}
+							// }else {
+							// 	$error = "You can't upload files of this type. Only png, jpg, jpeg accepted.";
+							// 	// echo "You can't upload files of this type";
+							// }
 						}
 					}else if ($errorNum==4) {
 						$userID = $_SESSION["id"];

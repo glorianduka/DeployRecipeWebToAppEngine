@@ -9,6 +9,9 @@ $password = getenv('CLOUDSQL_PASSWORD');
 $db = getenv('CLOUDSQL_DB');
 
 session_start();
+require_once "../vendor/autoload.php";
+// require_once "finalGoogleAppDeploy/DeployRecipeWebToAppEngine/FinalProjectGoogle/vendor/autoload.php";
+use Google\Cloud\Storage\StorageClient; 
 
 // var_dump($_POST);
 if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
@@ -33,39 +36,29 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 						// echo $mysqli->connect_error;
 						exit();
 					}
-                    // //Setting Up Google CLoud Storage and authentication
-                    // export GOOGLE_APPLICATION_CREDENTIALS="finalGoogleAppDeploy/DeployRecipeWebToAppEngine/FinalProjectGoogle/credentials/centered-flow-332318-254e27364d4c.json"
-                    
-                    // # Includes the autoloader for libraries installed with composer
-                    // require __DIR__ . '/vendor/autoload.php';
-
-                    // # Imports the Google Cloud client library
-                    // use Google\Cloud\Storage\StorageClient;
-
-                    // # Your Google Cloud Platform project ID
-                    // $projectId = 'centered-flow-332318';
-
-                    // # Instantiates a client
-                    // $storage = new StorageClient([
-                    //     'projectId' => $projectId
-                    // ]);
-
-                    // # The name for the new bucket
-                    // $bucketName = 'testing-bucket-abc';
-
-                    // # Creates the new bucket
-                    // $bucket = $storage->createBucket($bucketName);
-
-                    // echo 'Bucket ' . $bucket->name() . ' created.';
 					
+                    try {
+                        $storage = new StorageClient([
+                            'keyFilePath' => '../credentials/centered-flow-332318-254e27364d4c.json',
+                        ]);
+                        $bucketName = 'recipe-webapp-images';
+                        $bucket = $storage->bucket($bucketName);
+    
+                        $source = $_FILES['image']['tmp_name'];
+                        $fileName = $_FILES['image']['name'];
+                        $file = fopen($source, 'r');
+                        $object = $bucket->upload($file, [
+                            'name' => $fileName
+                        ]);
+                    } catch(Exception $e) {
+                        echo "error!!!!";
+                        echo $e->getMessage();
+                    }
 
-
-
-
-
-					$img_name = $_FILES['image']['name'];
+					// $img_name = $_FILES['image']['name'];
+                    $fileName = $_FILES['image']['name'];
 					$img_size = $_FILES['image']['size'];
-					$tmp_name = $_FILES['image']['tmp_name'];
+					// $tmp_name = $_FILES['image']['tmp_name'];
 					$error = $_FILES['image']['error'];
 
 					if ($error === 0) {
@@ -74,15 +67,15 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 							// echo "Sorry, your file is too large.";
 						    // header("Location: addRecipe.php?error=$em");
 						}else {
-							$img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
-							$img_ex_lc = strtolower($img_ex);
+							// $img_ex = pathinfo($img_name, PATHINFO_EXTENSION);
+							// $img_ex_lc = strtolower($img_ex);
 
-							$allowed_exs = array("jpg", "jpeg", "png"); 
+							// $allowed_exs = array("jpg", "jpeg", "png"); 
 
-							if (in_array($img_ex_lc, $allowed_exs)) {
-								$new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
-								$img_upload_path = '../images/'.$new_img_name;
-								move_uploaded_file($tmp_name, $img_upload_path);
+							// if (in_array($img_ex_lc, $allowed_exs)) {
+							// 	$new_img_name = uniqid("IMG-", true).'.'.$img_ex_lc;
+							// 	$img_upload_path = '../images/'.$new_img_name;
+							// 	move_uploaded_file($tmp_name, $img_upload_path);
 
 								$image = "";
 								// $name = $new_img_name;
@@ -98,7 +91,7 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 								// $image = file_get_contents($_FILES['image']['tmp_name']);
 
 								$statement_ = $mysqli->prepare("INSERT INTO recipes (title, cuisine, servings, ingredients, directions, imageName, image, prepTime, cookTime, difficulty, users_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-									$statement_->bind_param("ssisssbiisi", $title, $cuisine, $servings, $ingredients, $directions, $new_img_name, $image, $preptime, $cooktime, $difficulty, $userID);
+									$statement_->bind_param("ssisssbiisi", $title, $cuisine, $servings, $ingredients, $directions, $fileName, $image, $preptime, $cooktime, $difficulty, $userID);
 
 								$executed_ = $statement_->execute();
 								// check for errors
@@ -114,10 +107,10 @@ if( isset($_SESSION["logged_in"]) || $_SESSION["logged_in"]) {
 								}
 								$statement_->close();
 
-							}else {
-								$error = "You can't upload files of this type. Only png, jpg, jpeg accepted.";
-								// echo "You can't upload files of this type";
-							}
+							// }else {
+							// 	$error = "You can't upload files of this type. Only png, jpg, jpeg accepted.";
+							// 	// echo "You can't upload files of this type";
+							// }
 						}
 					}else {
 						$error = "unknown error occurred!";

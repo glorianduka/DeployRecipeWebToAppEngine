@@ -255,7 +255,7 @@ session_start();
 		<div class="container">
 			<div class="row">
 				<div class="col-12 col-md-12 col-lg-7">
-					<img class = "img-fluid rounded" alt = "fillerImage" src='../images/<?=$row['imageName']?>'>
+					<img class = "img-fluid rounded" alt = "fillerImage" src='https://storage.googleapis.com/recipe-webapp-images/<?=$row['imageName']?>'>
 					<p id="prepInfo">Prep <?php echo $row['prepTime']; ?> Minutes | Cook <?php echo $row['cookTime']; ?> Minutes | <?php echo $row['difficulty']; ?> | Serves <?php echo $row['servings']; ?></p>
 				</div>
 				<div class="hiddenSec">

@@ -362,7 +362,8 @@ else{
 				let innerDiv = document.createElement("div");
 				innerDiv.classList.add("imageDivHolder");
 				innerDiv.classList.add("rounded");
-				innerDiv.style.backgroundImage = "url('../images/" + jsResults[i].imageName + "')";
+				// innerDiv.style.backgroundImage = "url('../images/" + jsResults[i].imageName + "')";
+                innerDiv.style.backgroundImage = "url('https://storage.googleapis.com/recipe-webapp-images/" + jsResults[i].imageName + "')";
 				let remAnch = document.createElement("a");
 				remAnch.href = "delete.php?fav=true&id=" + jsResults[i].id + "&title="+jsResults[i].title;
 				let remImg = document.createElement("img");
@@ -410,7 +411,16 @@ else{
 				let innerDiv = document.createElement("div");
 				innerDiv.classList.add("imageDivHolder");
 				innerDiv.classList.add("rounded");
-				innerDiv.style.backgroundImage = "url('../images/" + jsResults[i].imageName + "')";
+                // try{
+                //     innerDiv.style.backgroundImage = "url('https://storage.googleapis.com/recipe-webapp-images/" + jsResults[i].imageName + "')";
+                   
+                // }
+                // catch (err){
+                //     console.log("IN CATCH!!! ERROR");
+                //     innerDiv.style.backgroundImage = "url('../images/" + jsResults[i].imageName + "')";
+                // }
+				// innerDiv.style.backgroundImage = "url('../images/" + jsResults[i].imageName + "')";
+                innerDiv.style.backgroundImage = "url('https://storage.googleapis.com/recipe-webapp-images/" + jsResults[i].imageName + "')";
 				let remAnch = document.createElement("a");
 				remAnch.href = "delete.php?fav=false&id=" + jsResults[i].id + "&title="+jsResults[i].title;
 				let remImg = document.createElement("img");
